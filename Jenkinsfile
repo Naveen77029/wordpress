@@ -1,5 +1,7 @@
 pipeline {
     agent any
+pipeline {
+    agent any
 
     stages {
         stage('Clone Repository') {
@@ -35,7 +37,7 @@ pipeline {
     post {
         always {
             // Archive the HTML file for reference in Jenkins
-            archiveArtifacts artifacts: 'public/index.html', onlyIfSuccessful: true
+            archiveArtifacts artifacts: 'index.html', onlyIfSuccessful: true
         }
     }
 }
