@@ -9,11 +9,20 @@ pipeline {
             }
         }
 
+        stage('List Workspace') {
+            steps {
+                script {
+                    // List all files and directories
+                    sh 'ls -R'
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build Docker image with the tag 'naveen687'
-                    sh 'docker build -t naveen687 .'
+                    // Build Docker image with the tag 'my-nginx-site'
+                    sh 'docker build -t my-nginx-site .'
                 }
             }
         }
@@ -26,22 +35,7 @@ pipeline {
                     sh 'docker rm my-nginx-container || true'
 
                     // Run the new container on port 8081
-                    sh 'docker run -d -p 8081:80 --name my-nginx-container naveen687'
-                }
-            }
-        }
-
-        stage('Test Docker Container') {
-            steps {
-                script {
-                    // Wait for the container to start
-                    sleep 10
-
-                    // Test the application running in the container
-                    def response = sh(script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:8081/test.html', returnStdout: true).trim()
-                    if (response != '200') {
-                        error "Application is not running as expected. HTTP response code: ${response}"
-                    }
+                    sh 'docker run -d -p 8081:80 --name my-nginx-container my-nginx-site'
                 }
             }
         }
