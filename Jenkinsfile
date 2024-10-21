@@ -9,6 +9,15 @@ pipeline {
             }
         }
 
+        stage('List Workspace') {
+            steps {
+                script {
+                    // List all files and directories
+                    sh 'ls -R'
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
