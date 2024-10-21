@@ -35,7 +35,7 @@ pipeline {
     post {
         always {
             // Archive the HTML file for reference in Jenkins
-            archiveArtifacts artifacts: 'index.html', onlyIfSuccessful: true
+            archiveArtifacts artifacts: 'public/index.html', onlyIfSuccessful: true
         }
     }
 }
