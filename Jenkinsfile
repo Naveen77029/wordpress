@@ -43,11 +43,23 @@ pipeline {
             }
         }
 
+        stage('Cleanup Old Images') {
+            steps {
+                // Remove old Docker images
+                echo 'Cleaning up old Docker images...'
+                sh '''
+                    # Remove all images with the name "my-wordpress" that are not tagged as latest
+                    docker rmi $(docker images -f "dangling=true" -q) || true
+                    docker rmi my-wordpress:old || true
+                '''
+            }
+        }
+
         stage('Deploy') {
             steps {
                 // Deploy the Docker container on port 8081
                 echo 'Deploying Docker container...'
-                sh 'docker run -d -p 8081:80 my-wordpress'
+                sh 'docker run -d -p 8081:80 --name my-wordpress my-wordpress'
             }
         }
     }
