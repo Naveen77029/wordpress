@@ -9,6 +9,15 @@ pipeline {
             }
         }
 
+        stage('Build') {
+            steps {
+                // You can add specific build commands if necessary
+                echo 'Building the project...'
+                // For example, you might run a build script or a specific command
+                // sh './build.sh' // Uncomment and modify as needed
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 // Build the Docker image
@@ -36,7 +45,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // Deploy the Docker container on a different port (e.g., 8081)
+                // Deploy the Docker container on port 8081
                 echo 'Deploying Docker container...'
                 sh 'docker run -d -p 8081:80 my-wordpress'
             }
