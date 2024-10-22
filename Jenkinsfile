@@ -17,6 +17,14 @@ pipeline {
             }
         }
 
+        stage('Test Docker Access') {
+            steps {
+                // Test Docker access
+                echo 'Testing Docker access...'
+                sh 'docker ps'
+            }
+        }
+
         stage('Test Docker Image') {
             steps {
                 // Run tests (if any)
