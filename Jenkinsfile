@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     // Find the existing container
-                    def oldContainer = sh(script: "docker ps -q -f name=my-wordpress-container", returnStdout: true).trim()
+                    def oldContainer = sh(script: "docker ps -aq -f name=my-wordpress-container", returnStdout: true).trim()
                     if (oldContainer) {
                         echo "Stopping old container: ${oldContainer}"
                         sh "docker stop ${oldContainer} || true" // Ignore if stop fails
