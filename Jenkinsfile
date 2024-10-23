@@ -1,20 +1,17 @@
 pipeline { 
     agent any
- 
     stages {
         stage('Clone Repository') {
             steps {
                 git 'https://github.com/Naveen77029/wordpress.git'
             }
         }
- 
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
                 sh 'docker build -t my-wordpress ./'
             }
         }
- 
         stage('Stop and Remove Old Container') {
             steps {
                 script {
@@ -31,7 +28,6 @@ pipeline {
                 }
             }
         }
- 
         stage('Deploy New Container') {
             steps {
                 echo 'Deploying new Docker container...'
@@ -39,7 +35,6 @@ pipeline {
             }
         }
     }
- 
     post {
         success {
             echo 'Pipeline succeeded!'
