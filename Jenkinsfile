@@ -10,6 +10,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
+                echo 'Building Docker image...'
                 sh 'docker build -t my-wordpress ./'
             }
         }
@@ -17,13 +18,13 @@ pipeline {
         stage('Stop and Remove Old Container') {
             steps {
                 script {
-                    // Stop and remove the old container if it exists
+                    // Find the existing container
                     def oldContainer = sh(script: "docker ps -q -f name=my-wordpress-container", returnStdout: true).trim()
                     if (oldContainer) {
                         echo "Stopping old container: ${oldContainer}"
-                        sh "docker stop ${oldContainer}"
+                        sh "docker stop ${oldContainer} || true" // Ignore if stop fails
                         echo "Removing old container: ${oldContainer}"
-                        sh "docker rm ${oldContainer}"
+                        sh "docker rm ${oldContainer} || true" // Ignore if remove fails
                     } else {
                         echo "No existing container to stop."
                     }
@@ -33,6 +34,7 @@ pipeline {
 
         stage('Deploy New Container') {
             steps {
+                echo 'Deploying new Docker container...'
                 sh 'docker run -d --name my-wordpress-container -p 8081:80 my-wordpress'
             }
         }
